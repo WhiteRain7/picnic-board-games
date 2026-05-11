@@ -139,12 +139,24 @@
     position      : fixed;
     bottom        : 10px;
     left          : 10px;
+    width         : 44px;
     padding       : 4px;
     font-size     : 0;
     border-radius : 666px;
     background    : #A6D6E8;
     box-shadow    : 0 1px 5px 0 rgba(200 200 200 / 0.8);
+    overflow      : hidden;
+    transition    : width .3s;
     z-index       : 100;
+}
+#filter-button > span {
+    height      : 36px;
+    line-height : 36px;
+    margin-left : 6px;
+    font-size   : 16px;
+}
+#filter-button:has(+ #filters[aria-expanded="true"]) {
+    width: calc(100vw - 20px);
 }
 
 .game-name > mark {
@@ -190,7 +202,7 @@
     }
 
     #filter-button {
-        display: block;
+        display: flex;
     }
 
     #extra-clear-filters-container {

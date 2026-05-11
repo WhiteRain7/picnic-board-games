@@ -76,6 +76,7 @@ function applyFilters (list, filters) {
         found += visible ? 1 : 0
     }
     let counter = document.getElementById('search-count')
+    let filterButton = document.getElementById('filter-button')
     if (found === list.length) {
         counter.textContent = `Всего ${list.length} игр`
         counter.ariaDescription = (
@@ -92,6 +93,7 @@ function applyFilters (list, filters) {
         )
         counter.parentElement.classList.add('filtered')
     }
+    filterButton.lastElementChild.textContent = counter.textContent
 }
 
 /**
@@ -335,6 +337,9 @@ function initFilters (list) {
         waveOn(filterButton)
         filterButton.addEventListener('click', event => {
             filtersContainer.ariaExpanded = filtersContainer.ariaExpanded === 'true' ? 'false' : 'true'
+        })
+        window.visualViewport.addEventListener('resize', event => {
+            filterButton.style.bottom = (window.innerHeight - window.visualViewport.height + 10) + 'px'
         })
     }
 

@@ -17,11 +17,13 @@ entry.elem.classList.toggle('invisible',!visible)
 entry.elem.firstElementChild.firstElementChild.tabIndex=visible?0:-1
 found+=visible?1:0}
 let counter=document.getElementById('search-count')
+let filterButton=document.getElementById('filter-button')
 if(found===list.length){counter.textContent=`Всего ${list.length} игр`
 counter.ariaDescription=(`Без фильтров,`+counter.ariaDescription.split(',')[1])
 counter.parentElement.classList.remove('filtered')}else{counter.textContent=`Найдено ${found} игр`
 counter.ariaDescription=(`Найдено ${found} из ${list.length} игр,`+counter.ariaDescription.split(',')[1])
-counter.parentElement.classList.add('filtered')}}
+counter.parentElement.classList.add('filtered')}
+filterButton.lastElementChild.textContent=counter.textContent}
 function applySorting(list,sort){let dir=sort.dir==='desc'?-1:+1
 let order
 let container=document.getElementById('games')
@@ -120,7 +122,9 @@ document.getElementById('extra-clear-filters')?.addEventListener('click',reset)
 let filtersContainer=document.getElementById('filters')
 let filterButton=document.getElementById('filter-button')
 if(filterButton){waveOn(filterButton)
-filterButton.addEventListener('click',event=>{filtersContainer.ariaExpanded=filtersContainer.ariaExpanded==='true'?'false':'true'})}
+filterButton.addEventListener('click',e=>{filtersContainer.ariaExpanded=filtersContainer.ariaExpanded==='true'?'false':'true'})
+window.visualViewport.addEventListener('resize',e=>{
+filterButton.style.bottom=(window.innerHeight-window.visualViewport.height+10)+'px'})}
 let counter=document.getElementById('search-count')
 counter.textContent=`Всего ${list.length} игр`
 counter.ariaDescription='Без фильтров, сортировка по названию - от А до Я'}
