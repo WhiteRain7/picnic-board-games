@@ -96,13 +96,13 @@
 /** #ea6060 */
 
 #search-results {
-    padding       : 4px;
+    padding       : 10px;
     margin-bottom : 2px;
     background    : #FFF;
     border-left   : 5px solid #666;
 }
 
-#search-results:not(.filtered) > #clear-filters {
+#search-results > span > span:not(.filtered) > #clear-filters {
     visibility: hidden;
 }
 
