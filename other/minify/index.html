@@ -9,12 +9,16 @@
     <link rel="preconnect" href="https://sheets.googleapis.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Marmelad&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Marmelad&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
     <link rel="stylesheet" href="components/reset.css" />
     <link rel="preload" href="components/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="components/index.css"></noscript>
     <link rel="stylesheet" href="components/filters.css" />
+
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Marmelad&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="components/index.css">
+    </noscript>
 
     <script id="req" type="application/javascript">
         const API_KEY = 'AIzaSyD33YohcvS_YEwymBXA957f0gv9mO-5EOA'
