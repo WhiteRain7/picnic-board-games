@@ -1,4 +1,6 @@
-async function _get(){return await REQUEST.then(r=>r.json())}
+async function _get(){
+return await REQUEST.then(r=>{if (r.status>=400){throw Error(`HTTP status ${r.status}: ${r.statusText}`)}
+else return r}).then(r=>r.json()).catch(() => [])}
 function _rangeFrom(raw){if(!raw){return{min:-1,max:-1}}else if(raw.includes('-')){let a=raw.split('-').map(Number)
 return{min:a[0],max:isNaN(a[1])?999:a[1]}}else{return{min:parseInt(raw),max:parseInt(raw)}}}
 function _ageFrom(raw){if(!raw){return-1}else{let found=raw.match(/\d+/)

@@ -19,7 +19,12 @@
  * @private
  */
 async function _get () {
-    return await REQUEST.then(r=>r.json())
+    return await REQUEST.then(r => {
+        if (r.status >= 400) {
+            throw Error(`HTTP status ${r.status}: ${r.statusText}`)
+        }
+        else return r
+    }).then(r=>r.json()).catch(() => [])
 }
 
 /**
