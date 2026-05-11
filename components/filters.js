@@ -33,7 +33,7 @@ counter.ariaDescription=(counter.ariaDescription.split(',')[0]+', сортиро
 break
 case 'difficulty':order=list.toSorted((a,b)=>{if(a.adapted.difficulty!==b.adapted.difficulty){if(a.adapted.difficulty===-1){return 1}
 if(b.adapted.difficulty===-1){return-1}}
-return(a.adapted.difficulty-b.adapted.difficulty)*dir})
+return(a.game.difficulty-b.game.difficulty)*dir})
 counter.ariaDescription=(counter.ariaDescription.split(',')[0]+', сортировка по сложности - '+(dir===1?'сначала простые':'сначала сложные'))
 break
 case 'time':order=list.toSorted((a,b)=>{if(a.game.time.max!==b.game.time.max){if(a.game.time.max===-1){return 1}

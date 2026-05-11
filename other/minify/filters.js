@@ -123,7 +123,7 @@ function applySorting (list, sort) {
                     if (a.adapted.difficulty === -1) { return  1 }
                     if (b.adapted.difficulty === -1) { return -1 }
                 }
-                return (a.adapted.difficulty - b.adapted.difficulty) * dir
+                return (a.game.difficulty - b.game.difficulty) * dir
             })
             counter.ariaDescription = (
                 counter.ariaDescription.split(',')[0] +
