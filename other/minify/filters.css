@@ -153,7 +153,11 @@
     height      : 36px;
     line-height : 36px;
     margin-left : 6px;
+    font-weight : bold;
     font-size   : 16px;
+}
+#filter-button > span::after {
+    content: " (закрыть)";
 }
 #filter-button:has(+ #filters[aria-expanded="true"]) {
     width: calc(100vw - 20px);
