@@ -233,6 +233,30 @@ a {
     animation      : wave-on .5s linear forwards;
 }
 
+button.cat {
+    text-decoration: underline;
+    cursor: help;
+}
+
+.popover {
+    position      : fixed;
+    left          : 50%;
+    top           : auto;
+    bottom        : 100px;
+    max-width     : 70%;
+    padding       : 10px;
+    border        : 2px solid #EA6060;
+    border-radius : 10px;
+    background    : #FFF;
+    box-shadow    : 0 2px 10px 0 #444;
+    font-size     : 16px;
+    font-style    : italic;
+    transform     : translateX(-50%);
+}
+.popover > dfn {
+    font-weight : bold;
+}
+
 @keyframes wave-on {
     from {
         transform: scale(0);
@@ -283,6 +307,13 @@ a {
     #footer {
         margin-top     : 30px;
         padding-bottom : 100px;
+    }
+
+    .popover {
+        bottom     : 10px;
+        box-sizing : border-box;
+        width      : calc(100vw - 20px);
+        max-width  : 100%;
     }
 }
 

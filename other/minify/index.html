@@ -24,6 +24,10 @@
         const REQUEST = fetch(`${HOST}/${SHEET}/values/${RANGE}?key=${API_KEY}`)
     </script>
 
+    <script defer fetchpriority="low" id="categories" type="application/javascript">
+        const CATEGORIES = fetch('public/categories.json')
+    </script>
+
     <script fetchpriority="high" src="components/requests.js" type="application/javascript"></script>
     <script fetchpriority="high" src="components/render.js" type="application/javascript"></script>
     <script defer async fetchpriority="low" src="components/filters.js" type="application/javascript"></script>

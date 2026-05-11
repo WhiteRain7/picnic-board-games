@@ -76,4 +76,29 @@ setTimeout(()=>document.querySelectorAll('.game-summary').forEach(el=>waveOn(el)
 let skip=document.getElementById('skip-to-content')
 skip?.addEventListener('click',event=>{document.getElementById('games')?.querySelector('summary')?.focus()})
 let year=document.getElementById('year')
-if(year){year.innerText+=` - ${(new Date).getFullYear()}`}})
+if(year){year.innerText+=` - ${(new Date).getFullYear()}`}
+setTimeout(async()=>{await CATEGORIES.then(r=>r.json()).then(data=>{let el,cats,cat,dataCat,button,span,pop,popId
+let index=0
+list.forEach(entry=>{if(!entry.game.category)return
+el=entry.elem.querySelector('.category')
+cats=entry.game.category.split(/,\s*/g)
+el.innerText=''
+outer:for(cat of cats){el.appendChild(new Text(', '))
+for(dataCat of data){if(dataCat.category===cat){button=document.createElement('button')
+button.type='button'
+button.classList.add('cat')
+button.innerText=cat
+pop=document.createElement('div')
+pop.id=`pop${index++}`
+pop.setAttribute('popover','')
+pop.classList.add('popover')
+pop.innerHTML=`<dfn>${cat}</dfn><br/>${dataCat.desc}`
+button.setAttribute('popovertarget',pop.id)
+el.appendChild(button)
+button.after(pop)
+continue outer}}
+span=document.createElement('span')
+span.classList.add('cat')
+span.innerText=cat
+el.appendChild(span)}
+el.firstChild.remove()})})})})
