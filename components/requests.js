@@ -1,0 +1,11 @@
+async function _get(){return await REQUEST.then(r=>r.json())}
+function _rangeFrom(raw){if(!raw){return{min:-1,max:-1}}else if(raw.includes('-')){let a=raw.split('-').map(Number)
+return{min:a[0],max:isNaN(a[1])?999:a[1]}}else{return{min:parseInt(raw),max:parseInt(raw)}}}
+function _ageFrom(raw){if(!raw){return-1}else{let found=raw.match(/\d+/)
+return found?parseInt(found[0]):-1}}
+function _parse(data){let games=[]
+data.values.shift()
+for(let row of data.values){if(row.length===0){break}
+games.push({name:row[0],owner:row[1],difficulty:row[2]?parseFloat(row[2].replace(',','.')):-1,time:_rangeFrom(row[3]),players:_rangeFrom(row[4]),age:_ageFrom(row[5]),quality:row[6],comment:row[7],category:row[8],description:row[9],})}
+return games.toSorted((a,b)=>a.name.localeCompare(b.name))}
+async function getData(){return await _get().then(_parse)}

@@ -1,0 +1,52 @@
+* {
+    font: inherit;
+    font-size: 100%;
+
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+
+    background-color: transparent;
+    color: inherit;
+    fill: currentColor;
+
+    border: none;
+
+    cursor: unset;
+}
+
+html {
+    width: 100vw;
+
+    background: #EEE;
+    color: #000;
+    fill: currentColor;
+
+    font-family: Marmelad, Arial, sans-serif;
+    font-size: 16px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+b, strong { font-weight: bold }
+i, em, q, blockquote, cite { font-style: italic }
+
+small { font-size: 80% }
+
+:disabled, [disabled], [aria-disabled=true] {
+    cursor: default !important;
+}
+
+abbr {
+    text-decoration: underline dotted;
+    cursor: help;
+}
+
+menu {
+    list-style: none;
+}
+
+.hidden {
+    display: none !important;
+}
