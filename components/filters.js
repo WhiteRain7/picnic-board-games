@@ -93,7 +93,9 @@ age.addEventListener('change',event=>{fi.age=parseInt(event.target.value)
 age.classList.toggle('used',fi.age<999)
 applyfi(adapted,fi)})
 hide.addEventListener('change',event=>{parent.classList.toggle('hide',event.target.checked)
-document.cookie=`hide=${event.target.checked ? 1 : 0};path=/`})
+let d=new Date
+d.setMonth(d.getMonth()+3)
+document.cookie = `hide=${event.target.checked?1:0};expires=${d.toUTCString()};path=/`})
 if(document.cookie.includes('hide=1')){hide.checked=!0
 parent.classList.toggle('hide',!0)}
 let sort={by:'name',dir:'asc'}

@@ -278,7 +278,9 @@ function initFilters (list) {
 
     hide.addEventListener('change', event => {
         parent.classList.toggle('hide', event.target.checked)
-        document.cookie = `hide=${event.target.checked ? 1 : 0};path=/`
+        const date = new Date
+        date.setMonth(date.getMonth() + 3)
+        document.cookie = `hide=${event.target.checked ? 1 : 0};expires=${date.toUTCString()};path=/`
     })
     if (document.cookie.includes('hide=1')) {
         hide.checked = true
