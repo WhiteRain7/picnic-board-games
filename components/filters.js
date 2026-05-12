@@ -118,8 +118,8 @@ fi.time=0
 fi.players=0
 fi.age=999
 applyfi(adapted,fi)}
-document.getElementById('clear-fi')?.addEventListener('click',reset)
-document.getElementById('extra-clear-fi')?.addEventListener('click',reset)
+document.getElementById('clear-filters')?.addEventListener('click',reset)
+document.getElementById('extra-clear-filters')?.addEventListener('click',reset)
 let ficn=document.getElementById('filters')
 let filterButton=document.getElementById('filter-button')
 if(filterButton){waveOn(filterButton)
