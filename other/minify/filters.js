@@ -238,7 +238,7 @@ function initFilters (list) {
         })
         span = document.createElement('span')
         span.classList.add('soft')
-        span.innerText = `(${adapted.reduce((s, e) => s + (e.adapted.difficulty === i), 0)})`
+        span.innerText = ` (${adapted.reduce((s, e) => s + (e.adapted.difficulty === i), 0)})`
         diff.parentElement.appendChild(span)
         i ++
     }

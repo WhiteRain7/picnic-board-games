@@ -76,7 +76,7 @@ diff.classList.toggle('used',event.target.checked)
 applyFilters(adapted,filters)})
 span=document.createElement('span')
 span.classList.add('soft')
-span.innerText=`(${adapted.reduce((s, e) => s + (e.adapted.difficulty === i), 0)})`
+span.innerText=` (${adapted.reduce((s, e) => s + (e.adapted.difficulty === i), 0)})`
 diff.parentElement.appendChild(span)
 i ++}
 time.addEventListener('input',event=>{filters.time=event.target.value?parseInt(event.target.value):0
