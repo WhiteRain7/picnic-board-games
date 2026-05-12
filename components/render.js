@@ -21,10 +21,11 @@ const estAgea=data.age===-1?'-':`${data.age}+`
 let node=template.content.cloneNode(!0)
 node.querySelector('.game-name').textContent=data.name
 let stats=node.querySelector('.game-stats')
-const diff=stats.querySelector('.difficulty')
-const time=stats.querySelector('.time')
-const plrs=stats.querySelector('.players')
-const agea=stats.querySelector('.age')
+let s=x=>stats.querySelector(x)
+const diff=s('.difficulty')
+const time=s('.time')
+const plrs=s('.players')
+const agea=s('.age')
 diff.setAttribute('style',`--clr: ${diffClr}`)
 time.setAttribute('style',`--clr: ${timeClr}`)
 agea.setAttribute('style',`--clr: ${ageaClr}`)
@@ -34,13 +35,14 @@ time.innerText=estTime
 plrs.innerText=estPlrs
 agea.innerText=estAgea
 let desc=node.querySelector('.game-description')
-desc.querySelector('.difficulty').innerText=(data.difficulty===-1?'-':`${estDiff} (${data.difficulty} по рейтингу BGG)`)
-desc.querySelector('.time').innerText=(data.time.min===-1?'-':data.time.min===data.time.max?`около ${data.time.max} минут`:`от ${data.time.min} до ${data.time.max} минут`)
-desc.querySelector('.players').innerText=(data.players.min===-1?'-':data.players.max===999?`от ${data.players.min}`:data.players.min===data.players.max?`${data.players.max}`:`от ${data.players.min} до ${data.players.max}`)
-desc.querySelector('.age').innerText=estAgea
-desc.querySelector('.category').innerText=data.category??'<категории пока не указаны>'
-desc.querySelector('.desc').innerText=data.description??'<описание пока не заполнено>'
-let owner=desc.querySelector('.owner')
+s=x=>desc.querySelector(x)
+s('.difficulty').innerText=(data.difficulty===-1?'-':`${estDiff} (${data.difficulty} по рейтингу BGG)`)
+s('.time').innerText=(data.time.min===-1?'-':data.time.min===data.time.max?`около ${data.time.max} минут`:`от ${data.time.min} до ${data.time.max} минут`)
+s('.players').innerText=(data.players.min===-1?'-':data.players.max===999?`от ${data.players.min}`:data.players.min===data.players.max?`${data.players.max}`:`от ${data.players.min} до ${data.players.max}`)
+s('.age').innerText=estAgea
+s('.category').innerText=data.category??'<категории пока не указаны>'
+s('.desc').innerText=data.description??'<описание пока не заполнено>'
+let owner=s('.owner')
 if(!data.owner||data.owner.toLowerCase()==='пикник'||data.owner.toLowerCase()==='неизвестно'){owner.remove()}else{owner.innerText=`${data.owner} оставил(а) эту игру нам на время, спасибо!`}
 return node}
 function waveOn(el,eventName='pointerdown'){el.setAttribute('data-wave-on','')

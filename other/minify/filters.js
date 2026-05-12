@@ -337,11 +337,25 @@ function initFilters (list) {
         waveOn(filterButton)
         filterButton.addEventListener('click', event => {
             filtersContainer.ariaExpanded = filtersContainer.ariaExpanded === 'true' ? 'false' : 'true'
+            if (filtersContainer.ariaExpanded === 'true') {
+                history.pushState({ modalOpen: true }, '')
+            }
+            else {
+                history.back()
+            }
         })
         window.visualViewport.addEventListener('resize', event => {
             filterButton.style.bottom = (window.innerHeight - window.visualViewport.height + 10) + 'px'
         })
     }
+
+    window.addEventListener('popstate', event => {
+        if (filtersContainer.ariaExpanded === 'true') {
+            event.preventDefault()
+            filtersContainer.ariaExpanded = 'false'
+            history.pushState({ modalOpen: true }, '')
+        }
+    })
 
     let counter = document.getElementById('search-count')
     counter.textContent = `Всего ${list.length} игр`
