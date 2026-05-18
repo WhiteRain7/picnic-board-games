@@ -24,7 +24,7 @@ async function _get () {
             throw Error(`HTTP status ${r.status}: ${r.statusText}`)
         }
         else return r
-    }).then(r=>r.json()).catch(() => [])
+    }).then(r=>r.json()).catch(() => ({ values: [] }))
 }
 
 /**
