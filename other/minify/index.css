@@ -359,6 +359,7 @@ button.cat {
         width      : calc(100% - 20px);
         max-width  : calc(100% - 20px);
         box-sizing : border-box;
+        z-index    : 100;
     }
 }
 
