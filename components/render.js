@@ -103,4 +103,48 @@ span=document.createElement('span')
 span.classList.add('cat')
 span.innerText=cat
 el.appendChild(span)}
-el.firstChild.remove()})})})})
+el.firstChild.remove()})})})
+setTimeout(() => {
+let visited=document.cookie.match(/visited=(\d+)/i)?.[1] ?? 0
+visited++
+const date=new Date
+date.setFullYear(date.getFullYear()+1)
+document.cookie=`visited=${visited};expires=${date.toUTCString()};path=/`
+if (visited>=3&&!document.cookie.includes('rated=1')) {
+let a=document.createElement('div')
+a.classList.add('alert')
+a.ariaLive='polite'
+let h=document.createElement('strong')
+let p=document.createElement('p')
+let go=document.createElement('a')
+let skip=document.createElement('button')
+let never=document.createElement('button')
+h.innerText='Надеемся вам нравится наш сайт!'
+p.innerText='Не хотели бы вы пройти небольшой опрос на Google формах, чтобы помочь нам сделать его лучше?'
+go.href='https://forms.gle/ZQYHmMaeqLYGobY2A'
+go.target='_blank'
+go.addEventListener('click',e=>{
+document.cookie=`rated=1;expires=${date.toUTCString()};path=/`
+a.remove()})
+go.innerText='Конечно!'
+skip.type='button'
+skip.addEventListener('click',e=> {
+const tomorrow=new Date
+tomorrow.setDate(tomorrow.getDate()+1)
+document.cookie=`rated=1;expires=${tomorrow.toUTCString()};path=/`
+a.remove()})
+skip.innerText='В следующий раз'
+never.type='button'
+never.addEventListener('click',e=> {
+document.cookie=`rated=1;expires=${date.toUTCString()};path=/`
+a.remove()})
+never.innerText='Больше не показывать'
+a.appendChild(h)
+a.appendChild(document.createElement('br'))
+a.appendChild(p)
+a.appendChild(go)
+a.appendChild(skip)
+a.appendChild(never)
+setTimeout(()=>{
+document.body.appendChild(a)
+},3000)}})})
