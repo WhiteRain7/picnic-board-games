@@ -111,7 +111,7 @@ function _gameFrom (template, data) {
             `от ${data.players.min} до ${data.players.max}`
     )
     desc.querySelector('.age').innerText = estAgea
-    desc.querySelector('.category').innerText = data.category ?? '<категории пока не указаны>'
+    desc.querySelector('.category').innerText = data.category || '<категории пока не указаны>'
     desc.querySelector('.desc').innerText = data.description ?? '<описание пока не заполнено>'
 
     let owner = desc.querySelector('.owner')
