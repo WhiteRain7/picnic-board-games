@@ -116,7 +116,7 @@ async function fillCategories (data, list) {
     let el, cats, cat, dataCat, button, span
     let amount = new Map
 
-    amount.set('Показать ещё', `+ ${data.reduce((s, v) => (s + !v.major), 0)} кат`)
+    amount.set('показать ещё', `+ ${data.reduce((s, v) => (s + !v.major), 0)} кат`)
 
     list.forEach(entry => {
         if (!entry.game.category) return
