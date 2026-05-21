@@ -1,12 +1,25 @@
 ## css-js-html minification
 
-External online tools used. Some tested NPX-based libraries doesn't work fine with russian, and provide no options to set charset or smth.
+JS minified with terser:
+```bash
+npm install terser -g
+```
+```bash
+terser ./other/minify/render.js --output ./components/render.js --mangle
+terser ./other/minify/requests.js --output ./components/requests.js --mangle
+terser ./other/minify/filters.js --output ./components/filters.js --mangle
+terser ./other/minify/categories.js --output ./components/categories.js --mangle
+```
 
-Used HTML minifier:
+CSS minified with minify:
+```bash
+npx minify ./other/minify/reset.css > ./components/reset.css
+npx minify ./other/minify/index.css > ./components/index.css
+npx minify ./other/minify/filters.css > ./components/filters.css
+```
+
+HTML minified with online tool:
 https://htmlminifier.com/
-
-Used JS minifier:
-https://minifyjsonline.com/
 
 ## OTF font minification
 
