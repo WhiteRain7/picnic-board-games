@@ -1,13 +1,1 @@
-async function _get(){
-return await REQUEST.then(r=>{if (r.status>=400){throw Error(`HTTP status ${r.status}: ${r.statusText}`)}
-else return r}).then(r=>r.json()).catch(()=>({values:[]}))}
-function _rangeFrom(raw){if(!raw){return{min:-1,max:-1}}else if(raw.includes('-')){let a=raw.split('-').map(Number)
-return{min:a[0],max:isNaN(a[1])?999:a[1]}}else{return{min:parseInt(raw),max:parseInt(raw)}}}
-function _ageFrom(raw){if(!raw){return-1}else{let found=raw.match(/\d+/)
-return found?parseInt(found[0]):-1}}
-function _parse(data){let games=[]
-data.values.shift()
-for(let row of data.values){if(row.length===0){break}
-games.push({name:row[0],owner:row[1],difficulty:row[2]?parseFloat(row[2].replace(',','.')):-1,time:_rangeFrom(row[3]),players:_rangeFrom(row[4]),age:_ageFrom(row[5]),quality:row[6],comment:row[7],category:row[8],description:row[9],})}
-return games.toSorted((a,b)=>a.name.localeCompare(b.name))}
-async function getData(){return await _get().then(_parse)}
+async function _get(){return await REQUEST.then(e=>{if(e.status>=400){throw Error(`HTTP status ${e.status}: ${e.statusText}`)}else return e}).then(e=>e.json()).catch(()=>({values:[]}))}function _rangeFrom(e){if(!e){return{min:-1,max:-1}}else if(e.includes("-")){let t=e.split("-").map(Number);return{min:t[0],max:isNaN(t[1])?999:t[1]}}else{return{min:parseInt(e),max:parseInt(e)}}}function _ageFrom(e){if(!e){return-1}else{let t=e.match(/\d+/);return t?parseInt(t[0]):-1}}function _parse(e){let t=[];e.values.shift();for(let r of e.values){if(r.length===0){break}t.push({name:r[0],owner:r[1],difficulty:r[2]?parseFloat(r[2].replace(",",".")):-1,time:_rangeFrom(r[3]),players:_rangeFrom(r[4]),age:_ageFrom(r[5]),quality:r[6],comment:r[7],category:r[8]??"",description:r[9]})}return t.toSorted((e,t)=>e.name.localeCompare(t.name))}async function getData(){return await _get().then(_parse)}

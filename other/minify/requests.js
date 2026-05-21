@@ -84,7 +84,7 @@ function _parse (data) {
             age: _ageFrom(row[5]),
             quality: row[6],
             comment: row[7],
-            category: row[8],
+            category: row[8] ?? '',
             description: row[9],
         })
     }
