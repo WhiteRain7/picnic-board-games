@@ -21,10 +21,10 @@
     </noscript>
 
     <script id="req" type="application/javascript">
-        const API_KEY = 'AIzaSyD33YohcvS_YEwymBXA957f0gv9mO-5EOA'
-        const HOST = 'https://sheets.googleapis.com/v4/spreadsheets'
-        const SHEET = '1dozp9mMohL7c2eBWQ7NvJq5brVPvIrLkTHnElvItMbk'
-        const RANGE = 'A:J'
+        const API_KEY = 'AIzaSyD33YohcvS_YEwymBXA957f0gv9mO-5EOA';
+        const HOST = 'https://sheets.googleapis.com/v4/spreadsheets';
+        const SHEET = '1dozp9mMohL7c2eBWQ7NvJq5brVPvIrLkTHnElvItMbk';
+        const RANGE = 'A:J';
         const REQUEST = fetch(`${HOST}/${SHEET}/values/${RANGE}?key=${API_KEY}`)
     </script>
 
@@ -35,6 +35,7 @@
     <script fetchpriority="high" src="components/requests.js" type="application/javascript"></script>
     <script fetchpriority="high" src="components/render.js" type="application/javascript"></script>
     <script defer async fetchpriority="low" src="components/filters.js" type="application/javascript"></script>
+    <script defer async fetchpriority="low" src="components/categories.js" type="application/javascript"></script>
 </head>
 
 <body>
@@ -48,7 +49,7 @@
         <h2>Клуб настольных и настольно-ролевых игр "пикник"</h2>
     </header>
 
-    <main id="main">
+    <div id="main">
         <button id="filter-button" type="button" aria-label="Фильтры и сортировка" aria-controls="filters">
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#1f1f1f"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Z"/></svg>
             <span>Фильтры</span>
@@ -59,7 +60,7 @@
                 <section class="filters-section">
                     <h3 class="filters-label">
                         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Z"/></svg>
-                        <span>Фильтр</span>
+                        <span>Фильтры</span>
                     </h3>
 
                     <div class="filter-group">
@@ -161,8 +162,31 @@
             </div>
         </aside>
 
-        <section id="contents">
-            <div id="search-results">
+        <div id="contents">
+            <section id="categories-filters" role="search" inert="inert">
+                <div id="categories-body">
+                    <h3 class="filters-label">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="m297-581 149-243q6-10 15-14.5t19-4.5q10 0 19 4.5t15 14.5l149 243q6 10 6 21t-5 20q-5 9-14 14.5t-21 5.5H331q-12 0-21-5.5T296-540q-5-9-5-20t6-21ZM700-80q-75 0-127.5-52.5T520-260q0-75 52.5-127.5T700-440q75 0 127.5 52.5T880-260q0 75-52.5 127.5T700-80Zm-580-60v-240q0-17 11.5-28.5T160-420h240q17 0 28.5 11.5T440-380v240q0 17-11.5 28.5T400-100H160q-17 0-28.5-11.5T120-140Z"/></svg>
+                        <span>Категории</span>
+                    </h3>
+
+                    <div class="filter-group">
+                        <button class="button">Соревновательная</button>
+                        <button class="button">Совместная</button>
+                        <button class="button">Командная</button>
+                    </div>
+
+                    <div id="filter-category-mod-container" class="filter-group">
+                        <label for="filter-category-mod">Игра должна иметь ...</label>
+                        <select id="filter-category-mod">
+                            <option value="and">все категории</option>
+                            <option value="or">любую из категорий</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <main id="search-results">
                 <span class="horizontal">
                     <span>
                         <span id="search-count" role="status" aria-live="polite" aria-description=", сортировка по имени, от А до Я">
@@ -172,7 +196,7 @@
                         <button id="clear-filters" type="button">Сброс</button>
                     </span>
 
-                    <button type="button" class="game-stats" popovertarget="stats-help">
+                    <button type="button" class="game-stats" popovertarget="stats-help" aria-label="Описание характеристик">
                         <span class="game-stat difficulty" title="Сложность">
                             <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px"><path d="M440-80v-200q0-56-17-83t-45-53l57-57q12 11 23 23.5t22 26.5q14-19 28.5-33.5T538-485q38-35 69-81t33-161l-63 63-57-56 160-160 160 160-56 56-64-63q-2 143-44 203.5T592-425q-32 29-52 56.5T520-280v200h-80ZM248-633q-4-20-5.5-44t-2.5-50l-64 63-56-56 160-160 160 160-57 56-63-62q0 21 2 39.5t4 34.5l-78 19Zm86 176q-20-21-38.5-49T263-575l77-19q10 27 23 46t28 34l-57 57Z"/></svg>
                         </span>
@@ -193,14 +217,15 @@
 
                 <div id="stats-help" popover class="popover">
                     <dfn>характеристики</dfn><br/>
-                    В цветном квадрате указана сложность игры по рейтингу BGG, от 1 (очень простая) до 5 (очень сложная).
-                    Также для игр указаны примерное максимальное время игры, количество игроков и возрастной ценз.
+                    Напротив каждй игры, в цветном квадрате указана сложность игры по рейтингу BGG, от 1 (очень простая)
+                    до 5 (очень сложная). Также для игр указаны примерное максимальное время игры, количество игроков
+                    и возрастной ценз.
                 </div>
-            </div>
+            </main>
 
             <ul id="games"></ul>
-        </section>
-    </main>
+        </div>
+    </div>
 
     <footer id="footer">
         <address class="address-block">

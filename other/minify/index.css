@@ -204,7 +204,7 @@ a {
 
 
 .soft {
-    color : #888;
+    opacity : .5;
 }
 
 
@@ -214,7 +214,6 @@ a {
     position                    : relative;
     overflow                    : hidden;
     -webkit-tap-highlight-color : transparent;
-    user-select                 : none;
 }
 
 .wave-div {
@@ -231,6 +230,21 @@ a {
     translate      : -50% -50%;
     z-index        : 100;
     animation      : wave-on .5s linear forwards;
+}
+
+@keyframes wave-on {
+    from {
+        transform: scale(0);
+        opacity: .3;
+    }
+    70% {
+        transform: scale(.7);
+        opacity: .3;
+    }
+    to {
+        transform: scale(1);
+        opacity: 0;
+    }
 }
 
 button.cat {
@@ -276,8 +290,7 @@ button.cat {
     margin-bottom : 14px;
 }
 
-.alert > a,
-.alert > button {
+.button {
     padding         : 8px 14px;
     margin          : 2px;
     border-radius   : 4px;
@@ -285,10 +298,18 @@ button.cat {
     background      : #F5F5F5;
 }
 
-.alert > a:hover,
-.alert > button:hover {
+.button:hover {
     background : #EEE;
     cursor     : pointer;
+}
+
+.button[aria-selected="true"] {
+    background : #EA6060;
+    color      : #FFF;
+}
+
+.button[aria-selected="true"]:hover {
+    background : #DA4C4C;
 }
 
 @keyframes appear {
@@ -296,27 +317,8 @@ button.cat {
     to { transform: translateY(0); opacity: 1; }
 }
 
-@keyframes wave-on {
-    from {
-        transform: scale(0);
-        opacity: .3;
-    }
-    70% {
-        transform: scale(.7);
-        opacity: .3;
-    }
-    to {
-        transform: scale(1);
-        opacity: 0;
-    }
-}
 
-
-@media screen and (max-width: 700px) {
-    #skip-to-content {
-        display: none;
-    }
-
+@media screen and (max-width: 800px) {
     .game-name {
         -webkit-line-clamp: 2;
     }
@@ -364,6 +366,10 @@ button.cat {
 }
 
 @media (pointer: coarse) {
+    .button {
+        user-select: none;
+    }
+
     #footer li {
         margin-bottom : 10px;
     }

@@ -194,50 +194,6 @@ window.addEventListener('load', async function () {
         year.innerText += ` - ${(new Date).getFullYear()}`
     }
 
-    setTimeout(async () => {
-        await CATEGORIES.then(r => r.json()).then(data => {
-            let el, cats, cat, dataCat, button, span, pop, popId
-            let index = 0
-            list.forEach(entry => {
-                if (!entry.game.category) return
-                el = entry.elem.querySelector('.category')
-                cats = entry.game.category.split(/,\s*/g)
-                el.innerText = ''
-
-                outer:
-                for (cat of cats) {
-                    el.appendChild(new Text(', '))
-                    for (dataCat of data) {
-                        if (dataCat.category === cat) {
-                            button = document.createElement('button')
-                            button.type = 'button'
-                            button.classList.add('cat')
-                            button.innerText = cat
-
-                            pop = document.createElement('div')
-                            pop.id = `pop${index++}`
-                            pop.setAttribute('popover', '')
-                            pop.classList.add('popover')
-                            pop.innerHTML = `<dfn>${cat}</dfn><br/>${dataCat.desc}`
-
-                            button.setAttribute('popovertarget', pop.id)
-                            el.appendChild(button)
-                            button.after(pop)
-
-                            continue outer
-                        }
-                    }
-                    span = document.createElement('span')
-                    span.classList.add('cat')
-                    span.innerText = cat
-                    el.appendChild(span)
-                }
-
-                el.firstChild.remove()
-            })
-        })
-    })
-
     setTimeout(() => {
         let visited = document.cookie.match(/visited=(\d+)/i)?.[1] ?? 0
         visited ++
@@ -260,6 +216,7 @@ window.addEventListener('load', async function () {
 
             go.href = 'https://forms.gle/ZQYHmMaeqLYGobY2A'
             go.target = '_blank'
+            go.classList.add('button')
             go.addEventListener('click', event => {
                 document.cookie = `rated=1;expires=${date.toUTCString()};path=/`
                 alert.remove()
@@ -267,6 +224,7 @@ window.addEventListener('load', async function () {
             go.innerText = 'Конечно!'
 
             skip.type = 'button'
+            skip.classList.add('button')
             skip.addEventListener('click', event => {
                 const tomorrow = new Date
                 tomorrow.setDate(tomorrow.getDate() + 1)
@@ -276,6 +234,7 @@ window.addEventListener('load', async function () {
             skip.innerText = 'В следующий раз'
 
             never.type = 'button'
+            never.classList.add('button')
             never.addEventListener('click', event => {
                 document.cookie = `rated=1;expires=${date.toUTCString()};path=/`
                 alert.remove()

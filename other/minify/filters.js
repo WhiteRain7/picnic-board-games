@@ -16,10 +16,20 @@ function _adapt (txt) {
 }
 
 /**
- * @param {Array<{ game: Game, adapted: Record<string, string|number>, elem: HTMLDetailsElement }>} list
+ * @param {number} num
+ * @param {[ string, string, string ]} forms
+ * @returns {string}
+ * @private
+ */
+function _plural (num, forms = [ 'игра', 'игры', 'игр' ]) {
+    return forms[(num % 10 === 1 && num % 100 !== 11) ? 0 : (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ? 1 : 2)]
+}
+
+/**
+ * @param {Array<{ game: Game, adapted: Record<string, any>, elem: HTMLDetailsElement }>} list
  * @param {Record<string, *>} filters
  */
-function applyFilters (list, filters) {
+function _applyFilters (list, filters) {
     let found = 0
     let nameEl
 
@@ -71,6 +81,27 @@ function applyFilters (list, filters) {
             }
         }
 
+        if (visible && filters.categories.size) {
+            if (filters.categoriesAll) {
+                for (let c of filters.categories.values()) {
+                    if (!entry.adapted.categories.has(c)) {
+                        visible = false
+                        break
+                    }
+                }
+            }
+            else {
+                let v = false
+                for (let c of filters.categories.values()) {
+                    if (entry.adapted.categories.has(c)) {
+                        v = true
+                        break
+                    }
+                }
+                if (!v) visible = false
+            }
+        }
+
         entry.elem.classList.toggle('invisible', !visible)
         entry.elem.firstElementChild.firstElementChild.tabIndex = visible ? 0 : -1
         found += visible ? 1 : 0
@@ -78,7 +109,7 @@ function applyFilters (list, filters) {
     let counter = document.getElementById('search-count')
     let filterButton = document.getElementById('filter-button')
     if (found === list.length) {
-        counter.textContent = `Всего ${list.length} игр`
+        counter.textContent = `Всего ${list.length} ${_plural(list.length)}`
         counter.ariaDescription = (
             `Без фильтров,` +
             counter.ariaDescription.split(',')[1]
@@ -86,9 +117,9 @@ function applyFilters (list, filters) {
         counter.parentElement.classList.remove('filtered')
     }
     else {
-        counter.textContent = `Найдено ${found} игр`
+        counter.textContent = `Найден${_plural(found, [ "а", "о", "о" ])} ${found} ${_plural(found)}`
         counter.ariaDescription = (
-            `Найдено ${found} из ${list.length} игр,` +
+            `Найден${_plural(found, [ "а", "о", "о" ])} ${found} из ${list.length} ${_plural(found)},` +
             counter.ariaDescription.split(',')[1]
         )
         counter.parentElement.classList.add('filtered')
@@ -96,8 +127,10 @@ function applyFilters (list, filters) {
     filterButton.lastElementChild.textContent = counter.textContent
 }
 
+let applyFilters = () => void
+
 /**
- * @param {Array<{ game: Game, adapted: Record<string, string|number>, elem: HTMLDetailsElement }>} list
+ * @param {Array<{ game: Game, adapted: Record<string, any>, elem: HTMLDetailsElement }>} list
  * @param {{ by: 'name' | 'difficulty' | 'time' | 'players', dir: 'asc' | 'desc' }} sort
  */
 function applySorting (list, sort) {
@@ -166,6 +199,16 @@ function applySorting (list, sort) {
     order.forEach(item => { container.appendChild(item.elem) })
 }
 
+let filters = {
+    name: [],
+    difficulty: new Set,
+    time: 0,
+    players: 0,
+    age: 999,
+    categories: new Set,
+    categoriesAll: true
+}
+
 /**
  * @param {Array<{ game: Game, elem: HTMLDetailsElement }>} list
  */
@@ -177,7 +220,8 @@ function initFilters (list) {
             adapted: {
                 name: _adapt(entry.game.name),
                 difficulty: Math.round(entry.game.difficulty),
-                time: entry.game.time.max === -1 ? Infinity : entry.game.time.max
+                time: entry.game.time.max === -1 ? Infinity : entry.game.time.max,
+                categories: new Set(entry.game.category.split(/,\s+/g))
             }
         }
     })
@@ -208,21 +252,13 @@ function initFilters (list) {
 
     ////////////////
 
-    let filters = {
-        name: [],
-        difficulty: new Set,
-        time: 0,
-        players: 0,
-        age: 999
-    }
-
     name.addEventListener('input', event => {
         filters.name = _adapt(event.target.value).split(/\s+/g)
         if (filters.name.length === 1 && filters.name[0] === '') {
             filters.name = []
         }
         name.classList.toggle('used', !!event.target.value)
-        applyFilters(adapted, filters)
+        applyFilters()
     })
 
     let i = 1
@@ -234,7 +270,7 @@ function initFilters (list) {
             if (event.target.checked) { filters.difficulty.add(j) }
             else { filters.difficulty.delete(j) }
             diff.classList.toggle('used', event.target.checked)
-            applyFilters(adapted, filters)
+            applyFilters()
         })
         span = document.createElement('span')
         span.classList.add('soft')
@@ -246,7 +282,7 @@ function initFilters (list) {
     time.addEventListener('input', event => {
         filters.time = event.target.value ? parseInt(event.target.value) : 0
         time.classList.toggle('used', !!filters.time)
-        applyFilters(adapted, filters)
+        applyFilters()
     })
 
     players.addEventListener('input', event => {
@@ -258,22 +294,22 @@ function initFilters (list) {
             let count = adapted.reduce((s, e) => {
                 return s + (e.game.players.max >= 11)
             }, 0)
-            playersOut.innerHTML = `От 11 и более <span class="soft">(${count} игр)</span>`
+            playersOut.innerHTML = `От 11 и более <span class="soft">(${count} ${_plural(count)})</span>`
         }
         else {
             let count = adapted.reduce((s, e) => {
                 return s + (e.game.players.min <= filters.players && filters.players <= e.game.players.max)
             }, 0)
-            playersOut.innerHTML = `На ${filters.players} чел. <span class="soft">(${count} игр)</span>`
+            playersOut.innerHTML = `На ${filters.players} чел. <span class="soft">(${count} ${_plural(count)})</span>`
         }
         players.classList.toggle('used', filters.players > 0)
-        applyFilters(adapted, filters)
+        applyFilters()
     })
 
     age.addEventListener('change', event => {
         filters.age = parseInt(event.target.value)
         age.classList.toggle('used', filters.age < 999)
-        applyFilters(adapted, filters)
+        applyFilters()
     })
 
     hide.addEventListener('change', event => {
@@ -286,6 +322,8 @@ function initFilters (list) {
         hide.checked = true
         parent.classList.toggle('hide', true)
     }
+
+    applyFilters = () => _applyFilters(adapted, filters)
 
     ////////////////
 
@@ -321,13 +359,20 @@ function initFilters (list) {
         players.classList.remove('used')
         age.classList.remove('used')
 
+        document
+            .getElementById('categories-body')
+            ?.querySelectorAll('button[title]').forEach(btn => {
+            btn.ariaSelected = 'false'
+        })
+
         filters.name = []
         filters.difficulty.clear()
         filters.time = 0
         filters.players = 0
         filters.age = 999
+        filters.categories.clear()
 
-        applyFilters(adapted, filters)
+        applyFilters()
     }
 
     document.getElementById('clear-filters')?.addEventListener('click', reset)
@@ -360,7 +405,7 @@ function initFilters (list) {
     })
 
     let counter = document.getElementById('search-count')
-    counter.textContent = `Всего ${list.length} игр`
+    counter.textContent = `Всего ${list.length} ${_plural(list.length)}`
     counter.ariaDescription = 'Без фильтров, сортировка по названию - от А до Я'
 }
 
