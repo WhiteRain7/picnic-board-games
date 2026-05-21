@@ -75,12 +75,13 @@
 }
 
 .filter-group input[type=checkbox] {
-    --clr        : #EA6060;
+    --clr          : #EA6060;
 
-    width        : 20px;
-    height       : 20px;
-    accent-color : var(--clr);
-    vertical-align: bottom;
+    width          : 20px;
+    height         : 20px;
+    margin-right   : 6px;
+    accent-color   : var(--clr);
+    vertical-align : bottom;
 }
 
 .filter-group input[type=number] {
@@ -193,16 +194,6 @@
     overflow    : scroll;
 }
 
-#categories-body::-webkit-scrollbar {
-    width : 6px;
-}
-
-#categories-body::-webkit-scrollbar-thumb {
-    width         : 6px;
-    background    : #222;
-    border-radius : 10px;
-}
-
 #categories-body::-webkit-scrollbar-thumb:hover {
     background : #EA6060;
 }
@@ -239,6 +230,18 @@
     #categories-filters {
         left: auto;
         right: 10px;
+    }
+}
+
+@media screen and (pointer: fine) {
+    #categories-body::-webkit-scrollbar {
+        width : 6px;
+    }
+
+    #categories-body::-webkit-scrollbar-thumb {
+        width         : 6px;
+        background    : #222;
+        border-radius : 10px;
     }
 }
 
